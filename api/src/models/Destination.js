@@ -21,6 +21,10 @@ const destinationSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  slug: {
+    type: String,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('Destination', destinationSchema);
