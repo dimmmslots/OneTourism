@@ -25,11 +25,19 @@ destinationControllers.getDestinationById = (req, res, next) => {
   // eslint-disable-next-line new-cap
   Destination.find({_id: mongoose.Types.ObjectId(id).toString()})
       .then((destination) => {
-        res.status(200).json({
-          message: 'Destination fetched successfully!',
-          success: true,
-          data: destination,
-        });
+        if (destination.length === 0) {
+          res.status(404).json({
+            message: 'Destination not found!',
+            success: false,
+            data: null,
+          });
+        } else {
+          res.status(200).json({
+            message: 'Destination fetched successfully!',
+            success: true,
+            data: destination,
+          });
+        }
       })
       .catch((err) => {
         res.status(500).json({
@@ -51,6 +59,7 @@ destinationControllers.getDestinationByName = (req, res, next) => {
           res.status(404).json({
             message: 'Destination not found!',
             success: false,
+            data: null,
           });
         }
         res.status(200).json({
@@ -152,13 +161,6 @@ destinationControllers.deleteDestination = (req, res, next) => {
                 error: err,
               });
             });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          message: 'Deleting destination failed!',
-          success: false,
-          error: err,
-        });
       });
 };
 
